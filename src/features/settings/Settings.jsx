@@ -73,6 +73,7 @@ export function Settings({ ctx }) {
                 value={name}
                 required
                 maxLength={80}
+                placeholder="TranAya"
                 onChange={(e) => setName(e.target.value)}
                 pattern=".*\S.*"
               />

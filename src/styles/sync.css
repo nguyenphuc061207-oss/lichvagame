@@ -59,3 +59,42 @@
   font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
   letter-spacing: 0.04em;
 }
+
+/* Warning shown on one-off deployment addresses (see lib/host.mjs) */
+.host-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--warning);
+  border-radius: 10px;
+  background: var(--warning-soft);
+  color: var(--text);
+  font-size: 13px;
+}
+.host-banner > svg {
+  flex: none;
+  color: var(--warning);
+}
+.host-banner > div {
+  flex: 1 1 260px;
+}
+.host-banner p {
+  margin-top: 2px;
+  color: var(--text);
+}
+.host-banner p button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.host-banner .button {
+  flex: none;
+  text-decoration: none;
+}

@@ -14,6 +14,7 @@ import { Mascot } from "../ui/Mascot.jsx";
 import { Avatar } from "../ui/Avatar.jsx";
 import { Crocodile } from "../ui/Crocodile.jsx";
 import { SceneBoundary } from "../ui/SceneBoundary.jsx";
+import { HostBanner } from "../ui/HostBanner.jsx";
 // Loaded only when Ultra HD is chosen: its SVG artwork is ~70 kB of markup.
 // A slow or dropped connection gets a few retries before giving up.
 const loadUltra = async (attempt = 0) => {
@@ -60,7 +61,8 @@ export function AppShell({
   useEffect(() => {
     document.title =
       (NAV.find((n) => n[0] === page)?.[1] || "Tổng quan") + " · TranAya";
-    main.current?.focus();
+    // Move focus for screen readers without scrolling the top bar away.
+    main.current?.focus({ preventScroll: true });
   }, [page]);
   useEffect(() => {
     const media = window.matchMedia("(min-width: 761px)");
@@ -219,6 +221,7 @@ export function AppShell({
           />
         </header>
         <main ref={main} tabIndex={-1} className="main-content">
+          <HostBanner navigate={navigate} />
           {demo && page !== "home" && (
             <div className="demo-banner">
               <span>Dữ liệu mẫu</span>

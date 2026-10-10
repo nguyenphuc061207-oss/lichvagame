@@ -265,9 +265,12 @@ export function validateBackup(data) {
     )
       throw new Error("Tổng tiền vượt giới hạn tính toán an toàn.");
   }
+  const nextPreferences = { ...emptyState().preferences, ...preferences };
+  if (nextPreferences.name === "Mimi") nextPreferences.name = "TranAya";
+  if (nextPreferences.avatar === "M") nextPreferences.avatar = "T";
   return {
     ...emptyState(),
     ...data,
-    preferences: { ...emptyState().preferences, ...preferences },
+    preferences: nextPreferences,
   };
 }

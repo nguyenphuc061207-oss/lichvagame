@@ -34,6 +34,9 @@ export function useAppData() {
       revision.current = snapshot.revision;
       setState(snapshot.state);
       setLoadError("");
+      // Best effort: ask the browser not to clear this site's data when the
+      // device runs low on space (Safari/Chrome may otherwise evict it).
+      navigator.storage?.persist?.().catch(() => {});
     } catch (error) {
       if (mounted.current)
         setLoadError("Không đọc được dữ liệu: " + error.message);
