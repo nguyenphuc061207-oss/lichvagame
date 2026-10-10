@@ -7,6 +7,7 @@ import { download } from "../../lib/storage.mjs";
 import { Switch } from "../../components/ui/Switch.jsx";
 import { ThemeToggle } from "../../components/ui/ThemeToggle.jsx";
 import { Avatar } from "../../components/ui/Avatar.jsx";
+import { SyncPanel } from "./SyncPanel.jsx";
 
 export function Settings({ ctx }) {
   const prefs = ctx.state.preferences;
@@ -162,6 +163,7 @@ export function Settings({ ctx }) {
             Bản này hỗ trợ tiếng Việt và định dạng Việt Nam.
           </p>
         </Section>
+        <SyncPanel ctx={ctx} />
         <Section title="Dữ liệu & riêng tư" className="wide">
           <p className="muted">
             {count} bản ghi · IndexedDB trên trình duyệt này. Dữ liệu không tự

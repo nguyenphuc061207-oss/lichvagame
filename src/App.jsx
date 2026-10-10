@@ -4,6 +4,8 @@ import { Sunflower } from "./components/ui/Sunflower.jsx";
 import { useAppData } from "./hooks/useAppData.js";
 import { useAppActions } from "./hooks/useAppActions.js";
 import { useNavigation } from "./hooks/useNavigation.js";
+import { useSync } from "./hooks/useSync.js";
+import { SyncConflict } from "./components/ui/SyncConflict.jsx";
 import { VIEWS } from "./config/navigation.jsx";
 import { todayISO } from "./lib/dates.mjs";
 import { AppShell } from "./components/layout/AppShell.jsx";
@@ -30,6 +32,11 @@ function AppContent() {
     navigate: navigation.navigate,
     setDate,
   });
+  const sync = useSync({
+    state: data.state,
+    commit: data.commit,
+    notify: data.notify,
+  });
   if (data.loadError)
     return (
       <div className="startup">
@@ -53,6 +60,7 @@ function AppContent() {
   const ctx = {
       ...data,
       ...actions,
+      sync,
       date,
       setDate,
       navigate: navigation.navigate,
@@ -76,6 +84,7 @@ function AppContent() {
         />
       )}{" "}
       {data.toast && <Toast value={data.toast} onClose={data.dismissToast} />}
+      {sync.conflict && <SyncConflict onResolve={sync.resolveConflict} />}
     </>
   );
   return (
