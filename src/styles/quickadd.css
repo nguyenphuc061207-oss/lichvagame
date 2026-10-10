@@ -1,0 +1,70 @@
+.quick-add {
+  margin-bottom: 18px;
+}
+.quick-add-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 4px 4px 4px 14px;
+}
+.quick-add-row:focus-within {
+  border-color: var(--accent);
+}
+.quick-add-row input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  min-height: 40px;
+  font-size: 14px;
+  outline: none;
+}
+.quick-add-row .button {
+  margin: 0;
+  min-height: 38px;
+}
+.quick-add-preview {
+  margin: 8px 2px 0;
+  font-size: 12px;
+  color: var(--muted);
+  min-height: 18px;
+}
+.quick-add-preview.error {
+  color: var(--warning);
+}
+.quick-add-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.quick-add-chips button {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.quick-add-chips button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.more-fields {
+  margin-top: 12px;
+}
+.more-fields > summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13px;
+  padding: 6px 0;
+}
+.more-fields[open] > summary {
+  margin-bottom: 8px;
+}

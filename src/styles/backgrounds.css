@@ -1,0 +1,153 @@
+:root {
+  --scene-sky: linear-gradient(
+    180deg,
+    #fff6dc 0%,
+    #ffefc6 45%,
+    #fde3a4 80%,
+    #f6d68a 100%
+  );
+  --scene-sky-art: url("/images/sunflower-sky-light.svg");
+  --scene-field: url("/images/sunflower-field-light.svg");
+  --scene-veil: #fffdf666;
+  --workspace-surface: #fffdf6c7;
+}
+:root[data-theme="dark"] {
+  --scene-sky: linear-gradient(
+    180deg,
+    #121829 0%,
+    #1a2036 50%,
+    #262540 80%,
+    #2b2a3a 100%
+  );
+  --scene-sky-art: url("/images/sunflower-sky-dark.svg");
+  --scene-field: url("/images/sunflower-field-dark.svg");
+  --scene-veil: #0a101c59;
+  --workspace-surface: #211d16cf;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --scene-sky: linear-gradient(
+      180deg,
+      #121829 0%,
+      #1a2036 50%,
+      #262540 80%,
+      #2b2a3a 100%
+    );
+    --scene-sky-art: url("/images/sunflower-sky-dark.svg");
+    --scene-field: url("/images/sunflower-field-dark.svg");
+    --scene-veil: #0a101c59;
+    --workspace-surface: #211d16cf;
+  }
+}
+.app-shell {
+  isolation: isolate;
+}
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--canvas);
+}
+:root[data-quality="hd"] .app-shell::before,
+:root[data-quality="ultra"] .app-shell::before {
+  /* Illustrated sunflower field: sky art up top, blooms framing the bottom
+     edges, and a light veil so the content column stays calm. */
+  background:
+    linear-gradient(180deg, var(--scene-veil) 0%, transparent 45%),
+    var(--scene-field) center bottom / 100% min(56vh, 32.5vw) no-repeat,
+    var(--scene-sky-art) center top / cover no-repeat,
+    var(--scene-sky),
+    var(--canvas);
+}
+.sidebar,
+.app-topbar {
+  background: var(--workspace-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  --muted: var(--text);
+}
+.main-content {
+  margin: 0 auto;
+  padding: 24px 32px 144px;
+  min-height: calc(100vh - 64px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  --muted: var(--text);
+}
+.main-content .panel,
+.main-content .quick-add-row,
+.main-content .quick-add-preview,
+.main-content .greeting,
+.main-content .page-heading,
+.main-content .calendar-toolbar,
+.main-content .filters,
+.main-content .tab-strip,
+.main-content .overview-more,
+.main-content .demo-banner {
+  background: var(--workspace-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 0;
+  box-shadow: none;
+}
+.main-content .quick-add-preview {
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.main-content .greeting,
+.main-content .page-heading {
+  padding: 14px 18px;
+  border-radius: 8px;
+}
+.main-content .calendar-toolbar,
+.main-content .filters,
+.main-content .tab-strip,
+.main-content .overview-more {
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+.main-content .demo-banner {
+  padding: 6px 12px;
+  border-radius: 6px;
+  width: fit-content;
+  max-width: 100%;
+}
+.main-content .empty {
+  padding: 10px 0;
+}
+@supports not (backdrop-filter: blur(16px)) {
+  .sidebar,
+  .app-topbar,
+  .main-content .panel,
+  .main-content .greeting,
+  .main-content .page-heading {
+    background: var(--canvas);
+  }
+}
+@media (max-width: 760px) {
+  .app-shell::before {
+    background-size:
+      auto,
+      auto 280px,
+      cover,
+      auto;
+    background-position:
+      0 0,
+      42% bottom,
+      70% top,
+      0 0;
+  }
+  .main-content {
+    margin: 0;
+    padding: 16px 12px 104px;
+    min-height: calc(100vh - 64px);
+    border-radius: 0;
+  }
+  .main-content .greeting,
+  .main-content .page-heading {
+    padding: 12px 14px;
+  }
+}

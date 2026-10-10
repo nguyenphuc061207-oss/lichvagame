@@ -1,0 +1,265 @@
+/* A restrained sunflower accent; the layout focuses on daily essentials. */
+.brand-icon {
+  background: transparent;
+}
+.brand-icon svg {
+  width: 24px;
+  height: 24px;
+}
+.brand-copy,
+h1,
+.profile-link,
+.avatar,
+.top-avatar {
+  font-family: inherit;
+}
+.brand-copy {
+  font-family: var(--brand-font);
+  font-size: 20px;
+  letter-spacing: 0;
+  font-weight: 400;
+  line-height: 1.2;
+}
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+}
+.sidebar {
+  background: var(--canvas);
+}
+.sidebar-bottom {
+  margin-top: auto;
+}
+.nav-item {
+  border-radius: 7px;
+}
+.nav-active-dot {
+  display: none;
+}
+.app-topbar {
+  height: 64px;
+}
+.greeting {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+  margin-bottom: 24px;
+}
+.greeting .subtitle {
+  margin-top: 5px;
+}
+.day-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.date-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.date-control input {
+  max-width: 160px;
+  min-height: 44px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+}
+.panel {
+  box-shadow: none;
+  border-radius: 8px;
+}
+.panel-head h2 {
+  font-size: 16px;
+}
+.page-heading {
+  margin-bottom: 24px;
+}
+.page-heading .subtitle {
+  max-width: 56ch;
+}
+.button {
+  border-radius: 7px;
+}
+.button:not(.secondary):not(.ghost):not(.danger) {
+  background: #f4cd57;
+  color: #40351f;
+  border: 1px solid #dfb340;
+}
+.deadline-item {
+  background: transparent;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+}
+.deadline-item:last-child {
+  border-bottom: 0;
+}
+.overview-more {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.overview-more > summary {
+  cursor: pointer;
+  padding: 16px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.overview-extra-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.overview-extra-grid .finance-mini {
+  margin-bottom: 16px;
+}
+.goal-preview + .goal-preview {
+  margin-top: 16px;
+}
+.demo-banner {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0 0 12px;
+  margin-bottom: 20px;
+}
+.appearance-controls {
+  margin-left: auto;
+  --control-bg: var(--soft);
+  --control-text: var(--muted);
+  --control-active: var(--surface);
+  --quality-active: var(--surface);
+}
+:root[data-theme="dark"] .appearance-controls {
+  --control-bg: var(--soft);
+  --control-text: var(--muted);
+  --control-active: var(--surface);
+  --quality-active: var(--surface);
+}
+.theme-segments button[aria-pressed="true"],
+.quality-segments button[aria-pressed="true"] {
+  box-shadow: none;
+}
+.quality-setting {
+  margin-block: 16px;
+}
+.quality-setting > p {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.quality-setting .appearance-controls {
+  margin-left: 0;
+}
+.empty {
+  padding: 20px 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .appearance-controls {
+    --control-bg: var(--soft);
+    --control-text: var(--muted);
+    --control-active: var(--surface);
+    --quality-active: var(--surface);
+  }
+}
+@media (max-width: 760px) {
+  .app-topbar {
+    flex-wrap: nowrap;
+    height: 64px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .app-topbar .appearance-controls {
+    order: 0;
+    width: auto;
+    justify-content: flex-end;
+  }
+  .app-topbar .breadcrumb {
+    flex: 1;
+    min-width: 0;
+  }
+  .app-topbar .breadcrumb strong {
+    max-width: 100%;
+  }
+  .greeting {
+    padding: 0;
+    gap: 16px;
+  }
+  .day-controls {
+    gap: 8px;
+    width: 100%;
+  }
+  .overview-extra-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  h1 {
+    font-size: 26px;
+  }
+}
+.calendar-quick-add,
+.duration-shortcuts,
+.weekday-buttons,
+.skip-date-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.calendar-quick-add {
+  margin-bottom: 20px;
+}
+.recurrence-fields {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+.weekday-picker {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.weekday-picker legend {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.weekday-buttons button {
+  min-height: 44px;
+  min-width: 44px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  background: var(--surface);
+}
+.weekday-buttons button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.duration-shortcuts > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.skip-date-controls {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+.skip-date-controls .field {
+  flex: 1;
+  min-width: 160px;
+}
+.event-actions {
+  display: grid;
+  justify-items: end;
+  flex-shrink: 0;
+  gap: 4px;
+}

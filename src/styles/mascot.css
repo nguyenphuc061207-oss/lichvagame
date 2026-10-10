@@ -1,0 +1,27 @@
+.mascot-widget {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  width: 168px;
+  z-index: 10;
+  pointer-events: none;
+}
+.mascot-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.main-content {
+  padding-bottom: 144px;
+}
+@media (max-width: 760px) {
+  .mascot-widget {
+    width: 116px;
+    right: max(8px, env(safe-area-inset-right));
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .main-content {
+    padding-bottom: 104px;
+  }
+}

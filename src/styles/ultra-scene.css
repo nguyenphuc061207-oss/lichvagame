@@ -1,0 +1,633 @@
+/* The animated scene shares the HD illustration, with motion on separate layers. */
+:root[data-quality="ultra"] .app-shell::before {
+  background: var(--scene-sky), var(--canvas);
+}
+.ultra-scene,
+.hd-scene {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint;
+}
+.hd-scene .ultra-crocodile,
+.hd-scene .ultra-crocodile * {
+  animation: none !important;
+}
+.hd-scene .croc-prey,
+.hd-scene .croc-sleep {
+  display: none;
+}
+.ultra-day,
+.ultra-night {
+  position: absolute;
+  inset: 0;
+}
+.ultra-night {
+  display: none;
+}
+.ultra-crocodile {
+  --croc-width: clamp(190px, 23vw, 340px);
+  --croc-left: clamp(260px, 28vw, 460px);
+  --croc-travel: min(
+    32vw,
+    calc(100vw - var(--croc-left) - var(--croc-width) - 24px)
+  );
+  --croc-hunt-time: 14s;
+  --croc-roam-time: calc(var(--croc-hunt-time) * 2);
+  --croc-skin: #81a957;
+  --croc-outline: #425d32;
+  --croc-scales: #5c813e;
+  --croc-belly: #c8d391;
+  --croc-highlight: #b5cd80;
+  --croc-shadow: #3a542b24;
+  --croc-grass: #6b923e;
+  position: absolute;
+  left: var(--croc-left);
+  bottom: min(3.5vh, 2vw);
+  width: var(--croc-width);
+}
+.ultra-night .ultra-crocodile {
+  --croc-skin: #607d58;
+  --croc-outline: #2c443d;
+  --croc-scales: #425e48;
+  --croc-belly: #99ad7e;
+  --croc-highlight: #94af7e;
+  --croc-shadow: #080e234d;
+  --croc-grass: #3e6045;
+}
+.ultra-crocodile > svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+.is-sleeping .croc-body {
+  transform-origin: 190px 145px;
+  animation: croc-breathe 4.5s ease-in-out infinite;
+}
+.croc-snore {
+  fill: #d6e1c6;
+  font-family: inherit;
+  font-weight: 600;
+  opacity: 0;
+  animation: croc-snore-rise 3.9s ease-out infinite;
+}
+.is-hunting .croc-upper-jaw {
+  transform-origin: 235px 112px;
+  animation: croc-catch var(--croc-hunt-time) ease-in-out infinite;
+}
+.ultra-crocodile.is-hunting {
+  animation: croc-roam var(--croc-roam-time) linear infinite;
+}
+.is-hunting > svg {
+  transform-origin: center;
+  animation: croc-face var(--croc-roam-time) steps(1, end) infinite;
+}
+.is-hunting .croc-body {
+  animation: croc-crawl-bob var(--croc-hunt-time) linear infinite;
+}
+.croc-leg-back {
+  transform-origin: 151px 128px;
+  --step-angle: 10deg;
+  --step-x: 3px;
+  --step-lift-a: 0px;
+  --step-lift-b: -2px;
+}
+.croc-leg-front {
+  transform-origin: 239px 128px;
+  --step-angle: -10deg;
+  --step-x: -3px;
+  --step-lift-a: -2px;
+  --step-lift-b: 0px;
+}
+.is-hunting .croc-leg {
+  animation: croc-step var(--croc-hunt-time) linear infinite;
+}
+.is-hunting .croc-tail {
+  transform-origin: 140px 116px;
+  animation: croc-tail-sway var(--croc-hunt-time) ease-in-out infinite;
+}
+.croc-prey {
+  animation: croc-prey-flight var(--croc-hunt-time) linear infinite;
+}
+.croc-prey-wings {
+  transform-origin: 0 0;
+  animation: ultra-wingbeat 0.14s ease-in-out infinite alternate;
+}
+/* Each outward/return leg takes one hunt cycle. Stop before snapping, then turn. */
+@keyframes croc-roam {
+  0%,
+  82%,
+  100% {
+    transform: translateX(0);
+  }
+  32%,
+  50% {
+    transform: translateX(var(--croc-travel));
+  }
+}
+@keyframes croc-face {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(-1);
+  }
+}
+@keyframes croc-step {
+  0%,
+  7%,
+  14%,
+  21%,
+  28%,
+  35%,
+  42%,
+  49%,
+  56%,
+  63% {
+    transform: translate(var(--step-x), var(--step-lift-a))
+      rotate(var(--step-angle));
+  }
+  3.5%,
+  10.5%,
+  17.5%,
+  24.5%,
+  31.5%,
+  38.5%,
+  45.5%,
+  52.5%,
+  59.5% {
+    transform: translate(calc(var(--step-x) * -1), var(--step-lift-b))
+      rotate(calc(var(--step-angle) * -1));
+  }
+  66%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+@keyframes croc-crawl-bob {
+  0%,
+  7%,
+  14%,
+  21%,
+  28%,
+  35%,
+  42%,
+  49%,
+  56%,
+  63% {
+    transform: translateY(-1px);
+  }
+  3.5%,
+  10.5%,
+  17.5%,
+  24.5%,
+  31.5%,
+  38.5%,
+  45.5%,
+  52.5%,
+  59.5% {
+    transform: translateY(1px);
+  }
+  66%,
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes croc-breathe {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.035);
+  }
+}
+@keyframes croc-snore-rise {
+  0% {
+    transform: translate(0, 8px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate(20px, -38px);
+    opacity: 0;
+  }
+}
+@keyframes croc-catch {
+  0%,
+  35%,
+  73%,
+  100% {
+    transform: rotate(0deg);
+  }
+  48%,
+  65% {
+    transform: rotate(-22deg);
+  }
+  70% {
+    transform: rotate(2deg);
+  }
+}
+@keyframes croc-tail-sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(-3deg);
+  }
+  70% {
+    transform: rotate(2deg);
+  }
+}
+@keyframes croc-prey-flight {
+  0% {
+    transform: translate(45px, -34px);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-10px, -24px);
+  }
+  45% {
+    transform: translate(18px, -12px);
+  }
+  60% {
+    transform: translate(7px, 7px);
+    opacity: 1;
+  }
+  67% {
+    transform: translate(0, 22px);
+    opacity: 1;
+  }
+  70%,
+  100% {
+    transform: translate(0, 30px);
+    opacity: 0;
+  }
+}
+:root[data-theme="dark"] .ultra-day {
+  display: none;
+}
+:root[data-theme="dark"] .ultra-night {
+  display: block;
+}
+.ultra-sky,
+.ultra-petals {
+  position: absolute;
+  inset: 0;
+}
+.ultra-sky > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.ultra-field {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: min(56vh, 32.5vw);
+}
+.ultra-field > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ultra-plant {
+  animation: ultra-sway var(--sway-time) ease-in-out var(--sway-delay) infinite
+    alternate;
+}
+.ultra-cloud {
+  animation: ultra-cloud-drift var(--cloud-time) linear var(--cloud-delay)
+    infinite;
+}
+.ultra-sun-rays {
+  animation: ultra-rays-turn 100s linear infinite;
+}
+.ultra-sunlight {
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(
+    from 155deg at 78% 22%,
+    transparent 0deg,
+    #fff5bd45 12deg,
+    transparent 24deg,
+    #fff8d638 38deg,
+    transparent 52deg,
+    #fff2ab30 68deg,
+    transparent 85deg
+  );
+  transform-origin: 78% 22%;
+  animation: ultra-light-shift 18s ease-in-out infinite alternate;
+}
+.ultra-petal-flight {
+  position: absolute;
+  left: -5%;
+  top: var(--petal-height);
+  animation: ultra-petal-travel var(--flight-time) linear var(--flight-delay)
+    infinite;
+}
+.ultra-petal {
+  display: block;
+  width: var(--petal-size);
+  height: calc(var(--petal-size) * 0.43);
+  border-radius: 85% 12% 85% 18%;
+  background: linear-gradient(145deg, #ffe98a, #f3ba27 62%, #dc9419);
+  box-shadow: inset 0 1px 0 #fff5b980;
+  opacity: var(--petal-opacity);
+  animation: ultra-petal-flutter var(--flutter-time) ease-in-out infinite
+    alternate;
+}
+.ultra-dragonfly {
+  position: absolute;
+  left: -10%;
+  top: 38%;
+  width: clamp(36px, 4vw, 62px);
+  animation: ultra-dragonfly-flight 31s linear var(--dragonfly-delay) infinite;
+}
+.ultra-dragonfly-1 {
+  top: 60%;
+  width: clamp(28px, 3vw, 46px);
+  animation-duration: 39s;
+}
+.ultra-dragonfly-2 {
+  top: 20%;
+  animation-duration: 45s;
+}
+.ultra-dragonfly > svg {
+  display: block;
+  width: 100%;
+  transform: rotate(64deg);
+}
+.ultra-wings {
+  transform-origin: 50px 34px;
+  animation: ultra-wingbeat 0.14s ease-in-out infinite alternate;
+}
+.ultra-star {
+  animation: ultra-star-twinkle var(--star-time) ease-in-out var(--star-delay)
+    infinite;
+}
+.ultra-meteor {
+  position: absolute;
+  width: clamp(80px, 12vw, 170px);
+  height: 2px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f1f7ff, #b8d9ff66 25%, transparent);
+  transform-origin: left center;
+  opacity: 0;
+  animation: ultra-meteor-fall var(--meteor-time) linear var(--meteor-delay)
+    infinite;
+}
+.ultra-meteor::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #f5faff;
+  box-shadow: 0 0 8px 2px #b8d9ff99;
+}
+.ultra-firefly {
+  position: absolute;
+  animation: ultra-firefly-drift var(--drift-time) ease-in-out
+    var(--firefly-delay) infinite;
+}
+.ultra-firefly-light {
+  display: block;
+  width: var(--firefly-size);
+  height: var(--firefly-size);
+  border-radius: 50%;
+  background: #efffa5;
+  box-shadow:
+    0 0 5px 2px #d4ef7880,
+    0 0 15px 5px #b3da4c30;
+  animation: ultra-firefly-glow var(--glow-time) ease-in-out
+    var(--firefly-delay) infinite;
+}
+@keyframes ultra-star-twinkle {
+  0%,
+  100% {
+    opacity: var(--star-low);
+  }
+  50% {
+    opacity: var(--star-high);
+  }
+}
+@keyframes ultra-meteor-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-32deg);
+    opacity: 0;
+  }
+  1% {
+    opacity: 0.9;
+  }
+  13% {
+    opacity: 0.7;
+  }
+  16%,
+  100% {
+    transform: translate3d(-55vw, 35vh, 0) rotate(-32deg);
+    opacity: 0;
+  }
+}
+@keyframes ultra-firefly-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  30% {
+    transform: translate3d(var(--drift-x), var(--drift-y), 0);
+  }
+  65% {
+    transform: translate3d(
+      calc(var(--drift-x) * -0.4),
+      calc(var(--drift-y) * 0.6),
+      0
+    );
+  }
+}
+@keyframes ultra-firefly-glow {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.7);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  65% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+}
+@keyframes ultra-sway {
+  from {
+    transform: rotate(-2.4deg);
+  }
+  to {
+    transform: rotate(3.2deg);
+  }
+}
+@keyframes ultra-cloud-drift {
+  from {
+    transform: translateX(-1700px);
+  }
+  to {
+    transform: translateX(1700px);
+  }
+}
+@keyframes ultra-rays-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ultra-light-shift {
+  from {
+    transform: rotate(-7deg);
+    opacity: 0.45;
+  }
+  to {
+    transform: rotate(8deg);
+    opacity: 0.85;
+  }
+}
+@keyframes ultra-petal-travel {
+  0% {
+    transform: translate3d(0, 8vh, 0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  35% {
+    transform: translate3d(38vw, -6vh, 0);
+  }
+  65% {
+    transform: translate3d(72vw, 4vh, 0);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(112vw, -12vh, 0);
+    opacity: 0;
+  }
+}
+@keyframes ultra-petal-flutter {
+  from {
+    transform: translateY(-14px) rotate(-45deg) rotateY(0deg);
+  }
+  to {
+    transform: translateY(14px) rotate(160deg) rotateY(65deg);
+  }
+}
+@keyframes ultra-dragonfly-flight {
+  0% {
+    transform: translate3d(0, 5vh, 0) rotate(-12deg);
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.85;
+  }
+  25% {
+    transform: translate3d(34vw, -8vh, 0) rotate(10deg);
+  }
+  42% {
+    transform: translate3d(48vw, -3vh, 0) rotate(-8deg);
+  }
+  52% {
+    transform: translate3d(51vw, -5vh, 0) rotate(5deg);
+  }
+  72% {
+    transform: translate3d(85vw, 9vh, 0) rotate(14deg);
+  }
+  94% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(120vw, -10vh, 0) rotate(-8deg);
+    opacity: 0;
+  }
+}
+@keyframes ultra-wingbeat {
+  from {
+    transform: scaleY(0.55);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@media (max-width: 760px) {
+  .ultra-crocodile {
+    --croc-left: 12px;
+    --croc-width: clamp(160px, 43vw, 230px);
+    --croc-travel: calc(100vw - var(--croc-width) - 24px);
+    bottom: max(18px, env(safe-area-inset-bottom));
+  }
+  .ultra-sky > svg {
+    position: absolute;
+    width: auto;
+    min-width: 100%;
+    left: 70%;
+    transform: translateX(-70%);
+  }
+  .ultra-field {
+    height: 280px;
+  }
+  .ultra-field > svg {
+    width: max(100%, 862px);
+    position: absolute;
+    left: 42%;
+    transform: translateX(-42%);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ultra-day {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .ultra-night {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ultra-crocodile.is-hunting {
+    animation: none;
+  }
+  .ultra-scene *,
+  .ultra-scene *::before,
+  .ultra-scene *::after {
+    animation: none !important;
+  }
+  .ultra-petals,
+  .ultra-dragonfly,
+  .ultra-meteor {
+    display: none;
+  }
+  .ultra-firefly-light {
+    opacity: 0.5;
+  }
+  .croc-prey,
+  .croc-sleep {
+    display: none;
+  }
+}
+:root[data-game-active="true"] .ultra-scene,
+:root[data-game-active="true"] .ultra-scene *,
+:root[data-game-active="true"] .ultra-scene *::before,
+:root[data-game-active="true"] .ultra-scene *::after {
+  animation-play-state: paused !important;
+}

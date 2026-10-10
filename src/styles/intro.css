@@ -1,0 +1,307 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+.intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--canvas);
+  transition: opacity 1.1s ease;
+}
+.intro-docking,
+.intro-exiting {
+  pointer-events: none;
+}
+.intro-docking::before,
+.intro-exiting::before {
+  opacity: 0;
+}
+.intro-exiting {
+  opacity: 0;
+}
+.intro-title {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-family: var(--brand-font);
+  font-weight: 400;
+  font-size: clamp(56px, 13vw, 140px);
+  letter-spacing: 0;
+  line-height: 1.2;
+  color: var(--text);
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    left 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    top 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    font-size 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.intro-docking .intro-title,
+.intro-exiting .intro-title {
+  left: var(--intro-dock-x, 80px);
+  top: var(--intro-dock-y, 32px);
+  font-size: var(--intro-dock-size, 20px);
+}
+.intro {
+  --portrait-h: min(66vh, 600px);
+}
+.intro-portrait {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: var(--portrait-h);
+  aspect-ratio: 316 / 592;
+  transform: translateX(-50%);
+  animation: intro-portrait-in 1s ease-out 0.5s backwards;
+}
+.intro-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+.intro-docking .intro-portrait,
+.intro-exiting .intro-portrait {
+  opacity: 0;
+  transform: translate(-50%, 24px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s ease;
+}
+/* Tap target over the roses, with a soft ring that invites a tap. */
+.intro-bouquet {
+  position: absolute;
+  left: 42%;
+  top: 37%;
+  width: 45%;
+  height: 18%;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.intro-bouquet:focus-visible {
+  outline: 3px solid #f08a6a;
+  outline-offset: 4px;
+}
+.intro-bouquet::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #f08a6ab3;
+  border-radius: 50%;
+  opacity: 0;
+  animation: intro-ring 2s ease-out 2.2s infinite;
+}
+.intro-bloom .intro-bouquet::after {
+  display: none;
+}
+.intro-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--canvas) 88%, transparent);
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: intro-hint-in 0.6s ease 2s backwards;
+}
+.intro-petal {
+  position: absolute;
+  left: var(--bx, 50%);
+  top: var(--by, 50%);
+  width: calc(var(--size) * 0.7);
+  height: var(--size);
+  border-radius: 80% 10% 80% 10%;
+  background: linear-gradient(145deg, #ffd3c2, #f4967a 60%, #e0705a);
+  opacity: 0;
+  pointer-events: none;
+  animation: intro-petal-bloom 1.9s both;
+}
+.intro-petal[data-tone="1"] {
+  background: linear-gradient(145deg, #ffe1d6, #f8b09a 60%, #ea8468);
+}
+.intro-petal[data-tone="2"] {
+  background: linear-gradient(145deg, #ffc4b0, #ee8566 60%, #d1604b);
+}
+/* The crocodile forms where the petals gather, then flies into the sidebar
+   brand together with the title. */
+.intro-croc {
+  position: absolute;
+  left: var(--bx, 50%);
+  top: var(--by, 50%);
+  width: clamp(170px, 26vw, 280px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.intro-croc .ultra-crocodile,
+.intro-croc .ultra-crocodile.is-hunting {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: 100%;
+  animation: none;
+}
+.intro-croc .ultra-crocodile.is-hunting > svg {
+  animation: none;
+  transform: none;
+}
+.intro-croc .is-still,
+.intro-croc .is-still * {
+  animation: none !important;
+}
+.intro-croc .is-still .croc-prey,
+.intro-croc .is-still .croc-sleep {
+  display: none;
+}
+.intro-bloom .intro-croc {
+  animation: intro-croc-in 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 1.85s backwards;
+}
+/* The person turns into the crocodile: she fades out as the petals gather. */
+.intro-bloom .intro-portrait {
+  animation: intro-portrait-out 0.7s ease 1.2s forwards;
+}
+.intro-docking .intro-croc,
+.intro-exiting .intro-croc {
+  left: var(--croc-dock-x, var(--intro-dock-x, 80px));
+  top: var(--croc-dock-y, var(--intro-dock-y, 32px));
+  transform: translate(-50%, -50%) scale(var(--croc-dock-scale, 0.1));
+  opacity: 0;
+  transition:
+    left 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    top 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease 0.95s;
+}
+.intro-title span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateX(-24px);
+  animation: intro-reveal 1.1s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.18s + 0.3s);
+}
+.intro-docking .intro-title span,
+.intro-exiting .intro-title span {
+  animation: none;
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+:root:has(.intro) .brand-copy,
+:root:has(.intro) .home-brand {
+  opacity: 0;
+}
+:root:has(.intro-exiting) .brand-copy,
+:root:has(.intro-exiting) .home-brand {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+@keyframes intro-portrait-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 28px);
+  }
+}
+@keyframes intro-portrait-out {
+  to {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.92);
+    filter: blur(4px);
+  }
+}
+@keyframes intro-ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+@keyframes intro-hint-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+}
+@keyframes intro-petal-bloom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+    animation-timing-function: cubic-bezier(0.1, 0.8, 0.3, 1);
+  }
+  8% {
+    opacity: 1;
+  }
+  46% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+      rotate(var(--rot)) scale(1);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--rot) * 2)) scale(0.3);
+  }
+}
+@keyframes intro-croc-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes intro-reveal {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-portrait,
+  .intro-hint,
+  .intro-bouquet::after {
+    animation: none;
+  }
+  .intro-portrait,
+  .intro-docking .intro-portrait,
+  .intro-exiting .intro-portrait,
+  .intro-croc {
+    transition: none;
+  }
+  .intro,
+  .intro::before,
+  .intro-title,
+  :root:has(.intro-exiting) .brand-copy,
+  :root:has(.intro-exiting) .home-brand {
+    transition: none;
+  }
+  .intro-title span {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}

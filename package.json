@@ -1,0 +1,80 @@
+{
+  "name": "baotran",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint --deny-warnings",
+    "preview": "vite preview",
+    "test": "node --test src/lib/*.test.mjs",
+    "check:ui": "node scripts/check-render.mjs && node scripts/check-colors.mjs",
+    "test:interaction": "node scripts/check-interactions.mjs",
+    "format": "prettier --write src scripts README.md package.json .prettierrc.json",
+    "format:check": "prettier --check src scripts README.md package.json .prettierrc.json",
+    "desktop": "npm run build && electron .",
+    "desktop:dist": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "lucide-react": "^1.54.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "fake-indexeddb": "^6.2.5",
+    "jsdom": "^29.1.1",
+    "oxlint": "^1.81.0",
+    "prettier": "^3.9.9",
+    "vite": "^8.3.0"
+  },
+  "main": "desktop/main.cjs",
+  "description": "TranAya — không gian riêng cho lịch học, ca làm và chăm sóc bản thân.",
+  "author": "TranAya",
+  "build": {
+    "appId": "vn.tranaya.app",
+    "productName": "TranAya",
+    "executableName": "TranAya",
+    "copyright": "TranAya",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "desktop/main.cjs",
+      "desktop/icon.ico",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "desktop/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TranAya",
+      "deleteAppDataOnUninstall": false,
+      "installerIcon": "desktop/icon.ico",
+      "uninstallerIcon": "desktop/icon.ico",
+      "artifactName": "TranAya-Setup-${version}.exe",
+      "language": "1066"
+    }
+  }
+}
