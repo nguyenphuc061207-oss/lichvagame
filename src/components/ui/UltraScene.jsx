@@ -2,7 +2,8 @@ import field from "../../assets/sunflower-field-ultra.svg?raw";
 import sky from "../../assets/sunflower-sky-ultra.svg?raw";
 import nightField from "../../assets/sunflower-field-ultra-dark.svg?raw";
 import nightSky from "../../assets/sunflower-sky-ultra-dark.svg?raw";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { isLowPowerDevice, sceneBudget } from "../../lib/device.mjs";
 import { Crocodile } from "./Crocodile.jsx";
 import { useThrottledAnimations } from "../../hooks/useThrottledAnimations.js";
 
@@ -109,9 +110,12 @@ function Dragonfly({ index }) {
 
 export function UltraScene() {
   const ref = useRef(null);
+  // Weak or small devices get the same scene with fewer particles and a lower
+  // frame rate; Ultra HD is never locked out.
+  const [budget] = useState(() => sceneBudget(isLowPowerDevice()));
   // ~220 decorative animations; at the display rate they repaint the
   // full-screen SVGs every frame. Step them all at 30 fps instead.
-  useThrottledAnimations(ref, 30, true);
+  useThrottledAnimations(ref, budget.fps, true);
   return (
     <div className="ultra-scene" aria-hidden="true" ref={ref}>
       <div className="ultra-day">
@@ -122,13 +126,13 @@ export function UltraScene() {
           dangerouslySetInnerHTML={{ __html: field }}
         />
         <div className="ultra-petals">
-          {PETALS.map((style, i) => (
+          {PETALS.slice(0, budget.petals).map((style, i) => (
             <span className="ultra-petal-flight" key={i} style={style}>
               <span className="ultra-petal" />
             </span>
           ))}
         </div>
-        {[0, 1, 2].map((index) => (
+        {[0, 1, 2].slice(0, budget.dragonflies).map((index) => (
           <Dragonfly key={index} index={index} />
         ))}
         <Crocodile />
@@ -138,14 +142,14 @@ export function UltraScene() {
           className="ultra-sky"
           dangerouslySetInnerHTML={{ __html: nightSky }}
         />
-        {METEORS.map((style, i) => (
+        {METEORS.slice(0, budget.meteors).map((style, i) => (
           <span className="ultra-meteor" key={i} style={style} />
         ))}
         <div
           className="ultra-field"
           dangerouslySetInnerHTML={{ __html: nightField }}
         />
-        {FIREFLIES.map((style, i) => (
+        {FIREFLIES.slice(0, budget.fireflies).map((style, i) => (
           <span className="ultra-firefly" key={i} style={style}>
             <span className="ultra-firefly-light" />
           </span>

@@ -111,9 +111,8 @@ export function Settings({ ctx }) {
             <p className="muted">Chất lượng hiển thị</p>
             <ThemeToggle
               theme={prefs.theme}
-              quality={prefs.quality || "auto"}
+              quality={prefs.quality || "hd"}
               commit={ctx.commit}
-              disabled={ctx.saving}
               showTheme={false}
             />
           </div>

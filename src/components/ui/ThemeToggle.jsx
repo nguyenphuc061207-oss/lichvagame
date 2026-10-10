@@ -13,7 +13,7 @@ const QUALITIES = [
 
 export function ThemeToggle({
   theme,
-  quality = "auto",
+  quality = "hd",
   commit,
   disabled,
   showTheme = true,
@@ -26,6 +26,7 @@ export function ThemeToggle({
         preferences: { ...state.preferences, [key]: value },
       }),
       null,
+      { optimistic: true },
     ).catch(() => {});
   return (
     <div className="appearance-controls">

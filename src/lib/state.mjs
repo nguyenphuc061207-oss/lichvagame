@@ -4,9 +4,10 @@ export function emptyState() {
   return {
     schemaVersion: 1,
     preferences: {
-      name: "Mimi",
-      avatar: "M",
+      name: "TranAya",
+      avatar: "T",
       theme: "system",
+      quality: "hd",
       accent: "rose",
       compact: false,
       decoration: true,

@@ -48,7 +48,7 @@ Bản sao lưu được kiểm tra phiên bản, collection, trường dữ li�
 ## Cấu trúc
 
 - `src/App.jsx`: ghép hooks, màn hình và các lớp modal/thông báo.
-- Hiệu năng: linh vật (SVG + SMIL) được điều khiển ở 30 khung/giây thay vì 60–144; cảnh Ultra HD và mini-game được tách gói, chỉ tải khi dùng.
+- Ultra HD chọn được trên mọi thiết bị, không có giới hạn theo cấu hình: máy ít nhân/ít RAM hoặc điện thoại tự giảm số hạt hiệu ứng và còn 20 khung/giây (`src/lib/device.mjs`); chọn chất lượng/giao diện đổi ngay rồi lưu nền, nên lưu chậm hoặc bị chặn cũng không làm nút "đứng im"; nếu cảnh Ultra tải hoặc chạy lỗi thì tự dùng cảnh HD thay vì trắng màn hình. Hiệu năng: linh vật (SVG + SMIL) được điều khiển ở 30 khung/giây thay vì 60–144; cảnh Ultra HD và mini-game được tách gói, chỉ tải khi dùng.
 - `src/features/`: từng chức năng có thư mục riêng; `game/` gồm view canvas, vẽ và điều khiển, logic game thuần ở `src/lib/game.mjs`; `forms/` chứa editor và cấu hình nhập liệu.
 - `src/components/layout/`, `shared/`, `ui/`: khung app, các khối dùng chung và thành phần giao diện cơ bản.
 - `src/hooks/`: quản lý dữ liệu, thao tác và điều hướng hash; `useThrottledAnimations` cho các animation trang trí của cảnh Ultra HD chạy 30 khung/giây thay vì theo tần số màn hình.

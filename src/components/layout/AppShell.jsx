@@ -13,10 +13,33 @@ import { Sunflower } from "../ui/Sunflower.jsx";
 import { Mascot } from "../ui/Mascot.jsx";
 import { Avatar } from "../ui/Avatar.jsx";
 import { Crocodile } from "../ui/Crocodile.jsx";
+import { SceneBoundary } from "../ui/SceneBoundary.jsx";
 // Loaded only when Ultra HD is chosen: its SVG artwork is ~70 kB of markup.
-const UltraScene = lazy(() =>
-  import("../ui/UltraScene.jsx").then((m) => ({ default: m.UltraScene })),
-);
+// A slow or dropped connection gets a few retries before giving up.
+const loadUltra = async (attempt = 0) => {
+  try {
+    const module = await import("../ui/UltraScene.jsx");
+    return { default: module.UltraScene };
+  } catch (error) {
+    if (attempt >= 3) throw error;
+    await new Promise((resolve) => setTimeout(resolve, 600 * (attempt + 1)));
+    return loadUltra(attempt + 1);
+  }
+};
+const UltraScene = lazy(() => loadUltra());
+
+function HdScene() {
+  return (
+    <div className="hd-scene" aria-hidden="true">
+      <div className="ultra-day">
+        <Crocodile />
+      </div>
+      <div className="ultra-night">
+        <Crocodile sleeping />
+      </div>
+    </div>
+  );
+}
 export function AppShell({
   state,
   page,
@@ -82,20 +105,15 @@ export function AppShell({
     <div
       className={`app-shell page-${page} ${compact ? "sidebar-compact" : ""}`}
     >
-      {state.preferences.quality === "hd" && (
-        <div className="hd-scene" aria-hidden="true">
-          <div className="ultra-day">
-            <Crocodile />
-          </div>
-          <div className="ultra-night">
-            <Crocodile sleeping />
-          </div>
-        </div>
-      )}
+      {state.preferences.quality === "hd" && <HdScene />}
       {state.preferences.quality === "ultra" && (
-        <Suspense fallback={null}>
-          <UltraScene />
-        </Suspense>
+        // If Ultra can't load or crashes on this device, show the HD scene
+        // rather than a blank screen; the choice itself stays "Ultra HD".
+        <SceneBoundary fallback={<HdScene />}>
+          <Suspense fallback={<HdScene />}>
+            <UltraScene />
+          </Suspense>
+        </SceneBoundary>
       )}
       {mobileOpen && (
         <button
@@ -195,9 +213,8 @@ export function AppShell({
           </span>
           <ThemeToggle
             theme={state.preferences.theme}
-            quality={state.preferences.quality || "auto"}
+            quality={state.preferences.quality || "hd"}
             commit={commit}
-            disabled={saving}
             showQuality={false}
           />
         </header>

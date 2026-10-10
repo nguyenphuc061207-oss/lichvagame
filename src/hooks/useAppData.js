@@ -53,12 +53,12 @@ export function useAppData() {
     if (!state) return;
     const p = state.preferences;
     document.documentElement.dataset.theme = p.theme;
-    document.documentElement.dataset.quality = p.quality || "auto";
+    document.documentElement.dataset.quality = p.quality || "hd";
     document.documentElement.dataset.accent = p.accent;
     document.documentElement.dataset.decoration = String(p.decoration);
   }, [state]);
   const commit = useCallback(
-    (updater, message = "Đã lưu thay đổi.") => {
+    (updater, message = "Đã lưu thay đổi.", { optimistic = false } = {}) => {
       const run = queue.current
         .catch(() => {})
         .then(async () => {
@@ -66,6 +66,10 @@ export function useAppData() {
           if (mounted.current) setSaving(true);
           try {
             const next = updater(current.current);
+            // Appearance changes show at once instead of waiting for storage,
+            // which can be slow or blocked on weak phones; saving continues in
+            // the background and a failure only raises the error toast.
+            if (optimistic && mounted.current) setState(next);
             const nextRevision = await writeState(next, {
               expectedRevision: revision.current,
             });
